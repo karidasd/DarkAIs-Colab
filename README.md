@@ -1,3 +1,12 @@
+---
+title: DarkAIs Colab
+emoji: 🚀
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+license: mit
+---
 # 🚀 DarkAIs Colab: The Privacy-First Local AI IDE
 
 ![DarkAIs Banner](banner.png)
