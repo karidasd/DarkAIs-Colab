@@ -69,10 +69,6 @@ class AIRequest(BaseModel):
     prompt: str
     model: str = "mistralai/Mistral-7B-Instruct-v0.2"
 
-@app.get("/")
-def read_root():
-    return {"status": "DarkAIs Backend is running"}
-
 @app.get("/hardware")
 def get_hardware():
     hardware_list = [{"id": "cpu", "name": "CPU (Intel/AMD)"}]
