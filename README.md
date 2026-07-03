@@ -1,5 +1,7 @@
 # 🚀 DarkAIs Colab: The Privacy-First Local AI IDE
 
+![DarkAIs Banner](banner.png)
+
 ![DarkAIs Banner](https://img.shields.io/badge/DarkAIs-Colab-00e5ff?style=for-the-badge&logo=jupyter&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
