@@ -7,52 +7,72 @@ sdk: docker
 pinned: false
 license: mit
 ---
-# 🚀 DarkAIs Colab: The Privacy-First Local AI IDE
+<div align="center">
+  <img src="banner.png" alt="DarkAIs Banner" width="100%">
+  <br/>
+  <h1>🚀 DarkAIs Colab</h1>
+  <h3>The Ultimate Privacy-First, Local AI Execution Environment</h3>
 
-![DarkAIs Banner](banner.png)
+  <p align="center">
+    <a href="https://huggingface.co/spaces/karidasd/DarkAIs-Colab"><img src="https://img.shields.io/badge/Live_Demo-HuggingFace_Spaces-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Live Demo"></a>
+    <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"></a>
+    <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI"></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python_3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT"></a>
+  </p>
+</div>
 
-![DarkAIs Banner](https://img.shields.io/badge/DarkAIs-Colab-00e5ff?style=for-the-badge&logo=jupyter&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+<br/>
 
-DarkAIs Colab is a premium, open-source alternative to Jupyter Notebooks and Google Colab, built for the modern developer. It is designed to run locally on your machine, ensuring **100% data privacy** and full utilization of your local hardware (GPU/CPU). 
+**DarkAIs Colab** is a premium, open-source alternative to Jupyter Notebooks and Google Colab, crafted specifically for the modern developer. It is designed to run locally on your machine, ensuring **100% data privacy** while fully utilizing your local hardware (GPU/CPU). 
 
-It features a stunning **Glassmorphism Dark UI**, built-in **HuggingFace AI Assistant**, and full Python code execution with persistent memory.
-
-## ✨ Features
-- **🧠 Persistent Kernel Memory:** Run Python code step-by-step. Variables and imports persist across cells, exactly like a real notebook.
-- **📊 Matplotlib DataViz Support:** Render Python charts directly in the browser using an injected Base64 extraction layer. No annoying popup windows!
-- **📦 Magic Commands (`!pip`):** Execute terminal commands directly inside the cells (e.g. `!pip install numpy`).
-- **📂 Workspace File Browser:** A built-in sidebar to upload and manage files (CSVs, images) for your Python code to process.
-- **🤖 Built-in AI Copilot:** Chat with HuggingFace's AI models directly inside your workspace without switching tabs.
-- **🔒 Secure Execution (Optional):** Password-protect code execution when deploying publicly.
-
-## 🚀 Live Demo
-You can try the demo running on HuggingFace Spaces here (Password required to run Python):
-👉 **[DarkAIs Colab on HuggingFace Spaces](https://huggingface.co/spaces/karidasd/DarkAIs-Colab)**
+Forget the plain, boring interfaces. DarkAIs Colab features a stunning **Glassmorphism Dark UI**, an integrated **HuggingFace AI Copilot**, and a robust Python execution engine with persistent kernel memory.
 
 ---
 
-## 🛠️ Local Installation (Privacy-First)
+## ✨ Key Features
 
-### Requirements
+| Feature | Description |
+| :--- | :--- |
+| **🧠 Persistent Kernel Memory** | Run Python code step-by-step. Variables, functions, and imports persist across cells, exactly like a real data science notebook. |
+| **📊 Matplotlib DataViz** | Advanced `Base64` extraction layer automatically captures and renders your Python plots directly in the browser—no annoying popup windows! |
+| **📦 Magic Commands** | Execute terminal commands directly inside the cells (e.g. `!pip install numpy`). The backend parses and pipes the output in real-time. |
+| **📂 Workspace File Browser** | Built-in UI to upload, read, and manage datasets (CSV, JSON, Images). Your Python code can process them instantly from the `workspace/` directory. |
+| **🤖 AI Copilot Integration** | Chat with HuggingFace's top-tier open-source models directly inside your IDE without ever switching tabs. |
+| **🔒 Enterprise Security** | Password-protect code execution (`DARK_PASS`) when deploying publicly to the web. |
+
+---
+
+## ⚡ Why DarkAIs Colab?
+
+| Feature | DarkAIs Colab | Google Colab | Jupyter Notebook |
+| :--- | :---: | :---: | :---: |
+| **100% Local Privacy** | ✅ | ❌ | ✅ |
+| **Modern Glass UI** | ✅ | ❌ | ❌ |
+| **Built-in AI Copilot** | ✅ | ✅ (Paid) | ❌ |
+| **HuggingFace Deployment** | ✅ (Native) | ❌ | ❌ |
+
+---
+
+## 🛠️ Installation & Setup (Local)
+
+### Prerequisites
 - Python 3.10+
 - Node.js & npm
 
-### 1. Clone & Start Backend
+### 1. Clone & Start the Backend
 ```bash
-git clone https://github.com/yourusername/darkais-colab.git
-cd darkais-colab/backend
+git clone https://github.com/karidasd/DarkAIs-Colab.git
+cd DarkAIs-Colab/backend
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
-*The backend will run on `http://localhost:8000`.*
+*The execution engine will start at `http://localhost:8000`.*
 
-### 2. Start Frontend
+### 2. Start the Glassmorphism UI
 Open a new terminal:
 ```bash
-cd darkais-colab/frontend
+cd DarkAIs-Colab/frontend
 npm install
 npm run dev
 ```
@@ -60,14 +80,18 @@ npm run dev
 
 ---
 
-## 🐳 Docker Deployment (For HuggingFace / Render)
-We've included a production-ready `Dockerfile` that combines the built React frontend and the FastAPI backend into a single container running on port `7860`.
+## 🐳 Docker Deployment (Production)
+We've included a production-ready `Dockerfile` that combines the compiled React frontend and the FastAPI backend into a single container running on port `7860` (perfect for **HuggingFace Spaces** or **Render**).
 
-1. Build the React app: `cd frontend && npm run build`
-2. Build Docker: `docker build -t darkais-colab .`
-3. Run: `docker run -p 7860:7860 darkais-colab`
+1. **Build the UI:** `cd frontend && npm run build`
+2. **Build Docker Image:** `docker build -t darkais-colab .`
+3. **Run Container:** `docker run -p 7860:7860 darkais-colab`
 
-*Note: You can override the execution password by setting the `DARK_PASS` environment variable.*
+> **Security Note**: Set the `DARK_PASS` environment variable in your production environment (e.g. HuggingFace Secrets) to lock code execution. The default password is `DarkAIs2026!`.
 
 ---
-**Designed with ❤️ by [karidasd] using React & FastAPI.**
+
+<div align="center">
+  <b>Designed with ❤️ by karidasd</b><br/>
+  <i>Empowering developers with beautiful, private AI tools.</i>
+</div>
