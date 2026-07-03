@@ -14,7 +14,8 @@ import './index.css';
 
 const Editor = EditorComponent.default || EditorComponent;
 
-const API_BASE = 'http://127.0.0.1:8000';
+// Use relative path on HuggingFace, but hardcoded port 8000 if running locally via Vite (port 5173)
+const API_BASE = window.location.port === '5173' ? 'http://127.0.0.1:8000' : '';
 
 // Helper to parse text containing [[IMAGE:base64...]]
 const OutputRenderer = ({ text }) => {
