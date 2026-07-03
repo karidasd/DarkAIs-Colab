@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import EditorComponent from 'react-simple-code-editor';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-python';
-import 'prismjs/themes/prism-tomorrow.css';
+import Editor from '@monaco-editor/react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { 
   Play, Trash2, Plus, Terminal, Cpu, Bot, X, Send, Sparkles, 
   FileText, Check, Edit2, File as FileIcon, Download, Eraser, PlayCircle, HelpCircle,
-  FolderOpen, Upload, Lock
+  FolderOpen, Upload, Lock, Wrench
 } from 'lucide-react';
 import './index.css';
-
-const Editor = EditorComponent.default || EditorComponent;
 
 // Use relative path on HuggingFace, but hardcoded port 8000 if running locally via Vite (port 5173)
 const API_BASE = window.location.port === '5173' ? 'http://127.0.0.1:8000' : '';
@@ -37,7 +32,7 @@ const OutputRenderer = ({ text }) => {
 
 function App() {
   const [cells, setCells] = useState([
-    { id: 1, type: 'markdown', content: '# Welcome to DarkAIs Pro 🚀\nWe now have **Persistent Memory**, **Matplotlib** support, and **!pip magic**!', isEditing: false },
+    { id: 1, type: 'markdown', content: '# Welcome to DarkAIs Pro 🚀\nWe now feature **VS Code IntelliSense**, **Persistent Memory**, and **AI Auto-Fix**!', isEditing: false },
     { id: 2, type: 'code', content: 'x = 10\nprint(f"X is {x}")', output: null, error: null, isRunning: false },
     { id: 3, type: 'code', content: '# Testing persistent memory!\nprint(f"I still remember x: {x}")', output: null, error: null, isRunning: false }
   ]);
@@ -139,8 +134,16 @@ function App() {
 
   const handleDownloadIpynb = () => {
     const notebook = {
-      cells: cells.map(c => ({ cell_type: c.type, source: [c.content] })),
-      metadata: {}, nbformat: 4, nbformat_minor: 5
+      metadata: {}, 
+      nbformat: 4, 
+      nbformat_minor: 5,
+      cells: cells.map(c => ({
+        cell_type: c.type,
+        metadata: {},
+        source: c.content.split('\n').map(line => line + '\n'),
+        outputs: c.type === 'code' && c.output ? [{ output_type: "stream", name: "stdout", text: c.output.split('\n').map(l => l + '\n') }] : [],
+        execution_count: c.type === 'code' ? 1 : null
+      }))
     };
     const blob = new Blob([JSON.stringify(notebook, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -202,6 +205,22 @@ function App() {
     setIsAiLoading(false);
   };
 
+  const handleAutoFix = async (cellCode, errorMsg) => {
+    setIsAIChatOpen(true);
+    const prompt = `My Python code threw an error.\n\nCode:\n\`\`\`python\n${cellCode}\n\`\`\`\n\nError:\n${errorMsg}\n\nPlease provide ONLY the fixed code so I can copy it easily.`;
+    
+    setAiMessages(prev => [...prev, { sender: 'user', text: `Please fix the error in my code.` }]);
+    setIsAiLoading(true);
+    try {
+      const res = await axios.post(`${API_BASE}/ai_assist`, { prompt });
+      const botReply = res.data.response || res.data.error || "No response received.";
+      setAiMessages(prev => [...prev, { sender: 'bot', text: botReply }]);
+    } catch (err) {
+      setAiMessages(prev => [...prev, { sender: 'bot', text: 'Error connecting to AI API.' }]);
+    }
+    setIsAiLoading(false);
+  };
+
   return (
     <div>
       {/* Header & Colab Menu */}
@@ -211,8 +230,8 @@ function App() {
             <button className={`toggle-sidebar-btn ${isSidebarOpen ? 'active' : ''}`} onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <FolderOpen size={20} />
             </button>
-            <div className="logo">
-              <Terminal className="text-gradient" />
+            <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <img src="/logo.png" alt="Logo" width="28" height="28" style={{ borderRadius: '4px' }} />
               <span>Dark<span className="text-gradient">AIs</span></span>
             </div>
             <div className="filename">
@@ -323,13 +342,22 @@ function App() {
                         </button>
                       </div>
                     </div>
-                    <div className="editor-wrapper">
+                    <div className="editor-wrapper" style={{ padding: '8px 0', border: '1px solid var(--border-color)', borderRadius: '6px', overflow: 'hidden' }}>
                       <Editor
+                        height="150px"
+                        language="python"
+                        theme="vs-dark"
                         value={cell.content}
-                        onValueChange={content => updateCellContent(cell.id, content)}
-                        highlight={code => Prism.highlight(code, Prism.languages.python, 'python')}
-                        padding={10}
-                        style={{ minHeight: '60px', outline: 'none' }}
+                        onChange={content => updateCellContent(cell.id, content || '')}
+                        options={{
+                          minimap: { enabled: false },
+                          fontSize: 14,
+                          fontFamily: 'monospace',
+                          scrollBeyondLastLine: false,
+                          automaticLayout: true,
+                          padding: { top: 10, bottom: 10 },
+                          scrollbar: { alwaysConsumeMouseWheel: false }
+                        }}
                       />
                     </div>
                     
@@ -337,7 +365,14 @@ function App() {
                       <div className="output-container">
                         {cell.isRunning && <div style={{ color: 'var(--accent-blue)' }}>Executing...</div>}
                         {cell.output && <OutputRenderer text={cell.output} />}
-                        {cell.error && <div className="error-text">{cell.error}</div>}
+                        {cell.error && (
+                          <div className="error-text">
+                            <div style={{ marginBottom: '10px' }}>{cell.error}</div>
+                            <button className="ai-fix-btn" onClick={() => handleAutoFix(cell.content, cell.error)}>
+                              <Wrench size={16} /> 🤖 Fix with AI
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </>
