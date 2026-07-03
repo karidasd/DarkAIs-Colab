@@ -9,8 +9,9 @@ license: mit
 ---
 <div align="center">
   <img src="banner.png" alt="DarkAIs Banner" width="100%">
-  <br/>
-  <h1>🚀 DarkAIs Colab</h1>
+  <br/><br/>
+  <img src="frontend/public/logo.png" alt="DarkAIs Logo" width="100" height="100" style="border-radius: 15px;">
+  <h1>DarkAIs Colab</h1>
   <h3>The Ultimate Privacy-First, Local AI Execution Environment</h3>
 
   <p align="center">
